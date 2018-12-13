@@ -1,0 +1,64 @@
+{% extends "common/index.html" %}
+{% load staticfiles %}
+
+{% block container %}
+
+   <div class="tm-middle">
+        <div class="uk-container uk-container-center">
+
+            <div class="uk-panel uk-panel-box uk-container-center uk-width-1-3">
+                    <div class="uk-grid">
+                    <div >
+                         {% if changepwd_success %}
+                            <div class="uk-alert">密码更改成功，请用新的密码登陆！</div>
+                        {% endif%}
+                    <form class="uk-form uk-form-horizontal uk-margin-top" action="" method="post"> {% csrf_token %}
+                        <div class="uk-form-row">
+                            <div class="uk-form-label">
+                                {{ form.oldpassword.label_tag }}
+                                {% for error in form.oldpassword.errors %}
+                                    <span class="uk-badge uk-badge-danger">{{ error }}</span>
+                                {% endfor %}
+                                {% if oldpassword_is_wrong %}
+                                    <span class="uk-badge uk-badge-danger">
+                                        原密码不正确
+                                    </span>
+                                {% endif %}
+                            </div>
+                            <div class="uk-form-control">
+                                {{ form.oldpassword }}
+                            </div>
+                        </div>
+                        <div class="uk-form-row">
+                            <div class="uk-form-label">
+                                {{ form.newpassword1.label_tag }}
+                                {% for error in form.newpassword1.errors %}
+                                    <span class="uk-badge uk-badge-danger">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="uk-form-control">
+                                {{ form.newpassword1 }}
+                            </div>
+                        </div>
+                        <div class="uk-form-row">
+                            <div class="uk-form-label">
+                                {{ form.newpassword2.label_tag }}
+                                {% for error in form.newpassword2.errors %}
+                                    <span class="uk-badge uk-badge-danger">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="uk-form-control">
+                                {{ form.newpassword2 }}
+                            </div>
+                        </div>
+                        <div class="uk-form-row">
+                            <input type="submit" value="确认修改" >
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+   </div>
+{% endblock %}

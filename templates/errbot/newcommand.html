@@ -1,0 +1,105 @@
+{% extends "common/index.html" %}
+{% block page_css %}{% endblock %}
+{% block page_title %}{% ifequal msg  '已存在同名规则' %}{{ msg }}{% endifequal %}{% endblock %}
+{% block container %}
+    <form id="formids" class="form-horizontal" action="" method="post">{% csrf_token %}
+
+    <div class="form-group"><label class="col-sm-2 control-label">指令</label>
+
+        <div class="col-lg-10 col-sm-6"><input style="width: 70%" type="text" class="form-control" name="name"  required="">
+        </div>
+        <div class="col-lg-10 col-sm-6">
+        <label style="margin-left: 180px;color:green">输入的指令为正则表达式，例如：查看主机(.*?)上的(.*?)进程状态，其中(.*?)
+            为正则表达式要匹配的参数,指令中参数的顺序位置，通过value1、value2、....valueN进行标注。</label></div>
+    </div>
+    <div class="hr-line-dashed"></div>
+    <div class="form-group"><label class="col-sm-2 control-label"  >状态</label>
+        <div class="col-sm-10">
+            <label class="radio-inline"><input type="radio"   value="0" id="optionsRadios1" checked="checked"  name="tool_run_type" required="">启用</label>
+            <label class="radio-inline"><input type="radio" value="1" id="optionsRadios2" name="tool_run_type" required="">禁用</label>
+        </div>
+    </div>
+    <div class="hr-line-dashed"></div>
+    <div class="form-group"><label class="col-sm-2 control-label">参数解析</label></div>
+    <div class="hr-line-dashed"></div>
+
+    <div class="form-group"><label class="col-sm-2 control-label"  ></label>
+        <div class="text-right col-lg-6">
+            <table id="table_id" class="table table-striped table-bordered table-hover">
+                <thead>
+                <!--表格头部-->
+
+                <th>序号</th>
+                <th>参数</th>
+                <th>值</th>
+                </thead>
+               <!--表格内容-->
+                <tbody>
+                {% for item in data %}
+                    <tr>
+                    <td>{{ forloop.counter  }}</td>
+                    <td>{{ item }}</td>
+                    <td><input style="width: 100%;border: hidden" name="inputvalue"/></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <a id="modalpic" class="blue" href="#modal_pic"
+                                        data-toggle="modal" title="指令编写说明">
+            <i style="font-size: 20px;" class="icon-question-sign"></i>
+        </a>
+    </div>
+    <div class="hr-line-dashed"></div>
+    <div class="text-right">
+
+    <a href="javascript:;" onClick="javascript:history.back(-1);" style="display: inline-block;width: 60px;display: inline-block;cursor:pointer;
+     font-size: 15px;
+    height: 30px;
+    color: #ffffff;
+    background-color: rgba(22, 155, 213, 1);
+    border: 1px solid #ccc;
+    border-radius: 4px;text-align: center;line-height:30px;text-decoration:none">返回</a>
+&nbsp;&nbsp;
+        {% ifequal msg '已存在同名规则' %}
+    <button style="width: 60px;
+font-size: 15px;
+   height: 30px;
+   color: #ffffff;
+   background-color: rgba(22, 155, 213, 1);
+   border: 1px solid #ccc;
+   border-radius: 4px;" type="submit" disabled="disabled">确认</button>
+            {% else %}
+             <button style="width: 60px;
+font-size: 15px;
+   height: 30px;
+   color: #ffffff;
+   background-color: rgba(22, 155, 213, 1);
+   border: 1px solid #ccc;
+   border-radius: 4px;" type="submit" >确认</button>
+        {% endifequal %}
+    </div>
+    </form>
+
+{% include 'errbot/modModal.html' %}
+<input id="fanganinput" value="" type="hidden"/>
+<script>
+    window.onload = function(){
+        var js1=document.getElementById('fanganinput');
+        js1.value='{{ fangan }}';
+    }
+</script>
+
+{#<script language="javascript">#}
+{#function getTDtext()#}
+{#{#}
+{#var inpvalue = document.getElementById("fanganinput");#}
+{#var url=document.getElementById("formids");#}
+{#var url1=url.toString();#}
+{#url.action=url1.replace(/dd/,inpvalue.value);#}
+{#    }#}
+{#</script>#}
+{% endblock %}
+
+
+

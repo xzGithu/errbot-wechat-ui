@@ -1,0 +1,233 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title> ChatOps管理平台 </title>
+
+		<meta name="description" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script language="JavaScript" src="{% static '/assets/js/jquery.min.js' %}"></script>
+        <script language="JavaScript" src="http://cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
+
+		<!-- basic styles -->
+        {% include 'common/head_css.html' %}
+        {% block page_css %}
+        {% endblock %}
+        {% block ace-content %}
+        {% endblock %}
+
+	</head>
+
+	<body class="no-skin">
+		<div style="background-color: #4f9afe;" class="navbar navbar-default" id="navbar">
+			<script type="text/javascript">
+				try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="navbar-container" id="navbar-container">
+				<div class="navbar-header pull-left">
+					<a href="#" class="navbar-brand">
+						<small>
+                            <img style="height: 35px" src="{% static 'assets/images/gallery/1234.png' %}">
+{#							<i class="icon-moon"></i>#}
+							BOMC运维协同平台
+						</small>
+					</a><!-- /.brand -->
+				</div><!-- /.navbar-header -->
+				<div  class="navbar-header pull-right" role="navigation">
+					<ul class="nav ace-nav">
+						<li class="light-blue">
+							<a style="background-color:#4f9afe; " data-toggle="dropdown" href="#" class="dropdown-toggle">
+								<img class="nav-user-photo" src="{% static 'assets/avatars/yd.png' %}" alt="Jason's Photo" />
+								<span class="user-info">
+                                <!--判断用户是否已经通过认证，如果通过则显示用户已登陆-->
+                                    {% if user.is_authenticated %}
+                                        用户选项
+                                        <small>{{user.username}}已登录</small>
+                                    {% else %}
+                                        用户选项
+                                    {% endif %}
+								</span>
+
+								<i class="icon-caret-down"></i>
+							</a>
+							<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                                  {% if user.is_authenticated %}
+                                    <li>
+									<a href="{% url 'logout' %}">
+										<i class="ace-icon fa fa-power-off"></i>
+										注销
+									</a>
+								    </li>
+                                  {% else %}
+								    <li>
+									<a href="{% url 'login'%}">
+										<i class="ace-icon fa fa-user"></i>
+										登录
+									</a>
+								    </li>
+                                  {% endif %}
+                                  <li class="divider"></li>
+                                  <li>
+									<a href="{% url 'changepwd' %}">
+										<i class="ace-icon fa fa-cog"></i>
+										更改密码
+									</a>
+								  </li>
+					        </ul>
+						</li>
+					</ul><!-- /.ace-nav -->
+				</div><!-- /.navbar-header -->
+			</div><!-- /.container -->
+		</div>
+
+		<div class="main-container" id="main-container">
+			<script type="text/javascript">
+				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="main-container-inner">
+				<a class="menu-toggler" id="menu-toggler" href="#">
+					<span class="menu-text"></span>
+				</a>
+
+				<div class="sidebar" id="sidebar">
+					<script type="text/javascript">
+						try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+					</script>
+
+					<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+						<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+							<span class="btn btn-success"></span>
+
+							<span class="btn btn-info"></span>
+
+							<span class="btn btn-warning"></span>
+
+							<span class="btn btn-danger"></span>
+						</div>
+					</div><!-- #sidebar-shortcuts -->
+
+					<ul class="nav nav-list">
+<!-- zichanguanli> -->
+                      {% if '/rulelist/' in request.path or '/add/host' in request.path %}
+                        <li class="active open" >
+                      {% else %}
+                        <li class="">
+                      {% endif %}
+                            <a href="{% url 'rulelist' table='rule' %}" class="dropdown-toggle">
+                            <i class="icon-tasks"></i>
+                            <span class="menu-text"> 指令管理 </span>
+                        </a>
+						</li>
+<!-- quanxianguanli> -->
+                      {% if   '/qunpermis/' in request.path or '/perpermis/' in request.path or 'permis' in request.path%}
+                        <li class="active open" >
+                      {% else %}
+                        <li class="">
+                      {% endif %}
+                        <a href="#" class="dropdown-toggle">
+                            <i class="icon-tasks"></i>
+                            <span class="menu-text"> 权限管理 </span>
+                            <b class="arrow icon-angle-down"></b>
+                        </a>
+
+							<ul class="submenu">
+                            {% if '/qunpermis/' in request.path %}
+                            <li class="active" >
+                            {% else %}
+                            <li class="">
+                            {% endif %}
+                            <a href="{% url 'qunpermis' %}">
+                            <i class="icon-double-angle-right"></i>
+                                    群权限
+                            </a>
+                            </li>
+
+                            {% if '/perpermis/' in request.path %}
+                             <li class="active" >
+                            {% else %}
+                             <li class="">
+                            {% endif %}
+							<a href="{% url 'userpermis' %}">
+							<i class="icon-double-angle-right"></i>
+									个人权限
+							</a>
+							</li>
+							</ul>
+						</li>
+					</ul><!-- /.nav-list -->
+
+                    <div class="sidebar-collapse" id="sidebar-collapse">
+                        <i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+                    </div>
+					<script type="text/javascript">
+						try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+					</script>
+				</div>
+
+				<div class="main-content">
+					<div class="breadcrumbs" id="breadcrumbs">
+						<script type="text/javascript">
+							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+						</script>
+
+						<ul class="breadcrumb">
+                            <li class="active">{% block sub_title %}{% endblock %} {{ sub_title }}</li>
+                                    <!--设置导航栏的页面标题-->
+						</ul><!-- .breadcrumb -->
+
+{#						<div class="nav-search" id="nav-search">#}
+{#							<form class="form-search">#}
+{#								<span class="input-icon">#}
+{#									<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />#}
+{#									<i class="icon-search nav-search-icon"></i>#}
+{#								</span>#}
+{#							</form>#}
+{#						</div><!-- #nav-search -->#}
+					</div>
+
+					<div class="page-content">
+                        <script type="text/javascript">
+							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+						</script>
+                        <div class="page-content-area">
+                            <div class="page-header" style="height: auto " >
+                                    <h1>
+                                        {{ page_title }}
+                                        {% block page_title %}{% endblock %}
+                                        <!--设置导航栏的页面标题-->
+                                    </h1>
+                            </div><!-- /.page-header -->
+
+						<div class="row">
+							<div class="col-xs-12">
+								<!-- PAGE CONTENT BEGINS -->
+                                    {% block container %}
+
+                                    {% endblock %}
+
+								<!-- PAGE CONTENT ENDS -->
+							</div><!-- /.col -->
+						</div><!-- /.row -->
+                        </div><!-- /.page-content-area -->
+					</div><!-- /.page-content -->
+                 </div><!-- /.main-content -->
+
+
+			</div><!-- /.main-container-inner -->
+
+			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+				<i class="icon-double-angle-up icon-only bigger-110"></i>
+			</a>
+		</div><!-- /.main-container -->
+
+		<!-- basic scripts -->
+
+        {% include 'common/javascript.html' %}
+        {% block page_javascript %}
+        {% endblock %}
+		<!-- inline scripts related to this page -->
+</body>
+</html>

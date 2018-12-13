@@ -1,0 +1,18 @@
+{% extends "user/qunpermis.html" %}
+{% block search %}
+    <div class="col-sm-3" style="margin-left: 80%;margin-top: -40px;">
+        <div class="input-group">
+            <input style="height: 30px" type="text" class="form-control" placeholder="" aria-describedby="name" name="name" {% if request.GET.name %} value = {{ request.GET.name }}{% endif %} >
+        </div>
+     </div>
+{% endblock %}
+
+{% block table_tr %}
+<th style="text-align: center">序号</th>
+<th style="text-align: center">群名称</th>
+{% endblock %}
+
+{% block table_td %}
+<td style="text-align: center">{{item.id}}</td>
+<td style="text-align: center">{{item.name}}</td>
+{% endblock %}

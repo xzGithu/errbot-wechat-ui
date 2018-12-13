@@ -1,0 +1,26 @@
+{% extends "errbot/resrule_list.html" %}
+{% block search %}
+    <div class="col-sm-3" style="margin-left: 80%;margin-top: -60px;">
+        <div class="input-group">
+{#            <span class="input-group-addon" id="rule_name" ></span>#}
+            <input type="text" class="form-control" placeholder="" aria-describedby="rulename" name="rulename"
+                    {% if request.GET.rulename %}value = {{ request.GET.rulename }}{% endif %}>
+        </div>
+     </div>
+{% endblock %}
+
+{% block table_tr %}
+<th></th>
+<th style="text-align: center">序号</th>
+<th style="text-align: center">规则名</th>
+<th style="text-align: center">创建时间</th>
+<th style="text-align: center">创建人</th>
+{% endblock %}
+
+{% block table_td %}
+<td style="text-align: center"><input name="rullist" type="checkbox" value="" /></td>
+<td style="text-align: center">{{item.id}}</td>
+<td id="mytd" style="text-align: center">{{item.rulename}}</td>
+<td style="text-align: center">{{item.ctime}}</td>
+<td style="text-align: center">{{item.cuser}}</td>
+{% endblock %}

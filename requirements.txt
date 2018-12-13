@@ -1,0 +1,4 @@
+cx-Oracle==6.4
+Django==1.10.8
+django-crispy-forms==1.7.2
+suds-jurko==0.6

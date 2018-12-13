@@ -1,0 +1,30 @@
+{% extends "user/resuser_list.html" %}
+{% block search %}
+
+    <div class="col-sm-3">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="node_name" >username</span>
+                         <!-- 如果之前已经写入了node_name的信息，那么页面重新加载后保留-->
+                            <input type="text" class="form-control" placeholder="" aria-describedby="username" name="username"
+                                    {% if request.GET.username %}value = {{ request.GET.username }}{% endif %}>
+                        </div>
+                     </div>
+
+{% endblock %}
+
+{% block table_tr %}
+<th>username</th>
+<th>email</th>
+<th>active</th>
+<th>admin</th>
+<th>lastlogin</th>
+{% endblock %}
+
+
+{% block table_td %}
+<td>{{item.username}}</td>
+<td>{{item.email}}</td>
+<td>{{item.is_active}}</td>
+<td>{{item.is_superuser}}</td>
+<td>{{item.last_login}}</td>
+{% endblock %}

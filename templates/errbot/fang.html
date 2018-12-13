@@ -1,0 +1,19 @@
+{% extends "errbot/fang_list.html" %}
+{% block search %}
+{% endblock %}
+
+{% block table_tr %}
+<th></th>
+<th>序号</th>
+<th>方案名称</th>
+<th>归属分类</th>
+<th>描述</th>
+{% endblock %}
+
+{% block table_td %}
+<td><input name="Fruit" type="radio" value="" /></td>
+<td>{{ item.id }}</td>
+<td>{{ item.name }}</td>
+<td>{{ item.cate }}</td>
+<td>{{ item.desc }}</td>
+{% endblock %}

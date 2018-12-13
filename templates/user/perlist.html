@@ -1,0 +1,22 @@
+{% extends "user/perpermis.html" %}
+{% block search %}
+    <div class="col-sm-3" style="margin-left: 80%;margin-top: -40px;">
+        <div class="input-group" >
+            <input style="height: 30px" type="text" class="form-control" placeholder="" aria-describedby="descname" name="descname" {% if request.GET.descname %} value = {{ request.GET.descname }}{% endif %} >
+        </div>
+     </div>
+{% endblock %}
+
+{% block table_tr %}
+<th style="text-align: center">序号</th>
+<th style="text-align: center">好友备注</th>
+<th style="text-align: center">所属群名</th>
+<th style="text-align: center">是否好友</th>
+{% endblock %}
+
+{% block table_td %}
+<td style="text-align: center">{{item.id}}</td>
+<td style="text-align: center">{{item.descname}}</td>
+<td style="text-align: center">{{item.group}}</td>
+<td style="text-align: center">{{item.isfriend}}</td>
+{% endblock %}

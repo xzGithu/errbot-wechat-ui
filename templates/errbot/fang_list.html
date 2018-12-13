@@ -1,0 +1,97 @@
+<!--继承index.html-->
+{% extends "common/index.html" %}
+{% load staticfiles %}
+{% block page_css %}
+{% endblock %}
+<!--填充导航栏的页面名称-->
+{% block sub_title %}
+    指令管理
+{% endblock %}
+{% block page_title %}
+{% endblock %}
+<!--放置主页面内容-->
+{% block container %}
+    <div class="row">
+        <!-- Search Page BEGINS-->
+        <div class="col-xs-12">
+            <form id="form" class="navbar-for navbar-container" role="search" method="post" action="">{% csrf_token %}
+                <!--放置搜索栏内容-->
+                {% block search %}
+                {% endblock %}
+            </form>
+        </div>
+        <!-- Search Page END -->
+        <!-- PAGE TABLES BEGINS -->
+        <div class="col-xs-12">
+            <div>
+                <table id="table_id" class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <!--表格头部-->
+                    {% block table_tr %}
+                    {% endblock %}
+                    </thead>
+                   <!--表格内容-->
+                    <tbody>
+                    {% for item in data %}
+                        <tr>
+                        {% block table_td %}
+                        {% endblock %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% include 'common/Pagination.html' %}
+<div class="text-right">
+
+    <a href="javascript:;" onClick="javascript:history.back(-1);" style="text-align: center;text-decoration:none;display: inline-block;width: 60px;
+font-size: 15px;
+   height: 30px;
+   line-height:30px;
+   color: #ffffff;
+   background-color: rgba(22, 155, 213, 1);
+   border: 1px solid #ccc;
+   border-radius: 4px;">返回</a>
+
+    &nbsp;&nbsp;&nbsp;
+
+    <a id="urls" onclick="getTDtext()" href="{% url 'newrule' 'fangan' %}" style="text-decoration: none;display: inline-block;color: #ffffff;width: 60px;
+font-size: 15px;
+   height: 30px;
+   text-align: center;
+   line-height:30px;
+   background-color: rgba(22, 155, 213, 1);
+   border: 1px solid #ccc;
+   border-radius: 4px;">下一步</a>
+
+</div>
+<script language="javascript">
+function getTDtext()
+{
+var rows = document.getElementById("table_id").rows;
+var a = document.getElementsByName("Fruit");
+var url=document.getElementById("urls");
+var url1=url.toString();
+{#alert(url);#}
+{#alert(url.href.replace(/00/,'ad'));#}
+//var states = "";
+var  table = document.getElementById("table_id");
+
+for(var i=0;i<a.length;i++)
+{
+if(a[i].checked){
+var row = a[i].parentElement.parentElement.rowIndex;
+//states += rows[row].cells[1].innerHTML+";";
+  var fanganname=rows[row].cells[2].innerHTML;
+  url.href=url1.replace(/fangan/,fanganname);
+
+}}
+
+}
+</script>
+{% endblock %}
+
+

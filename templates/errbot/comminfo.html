@@ -1,0 +1,39 @@
+{% extends "common/index.html" %}
+<!--引用crispy-forms标签-->
+{% load crispy_forms_tags %}
+{% block sub_title %}指令详情
+{% endblock %}
+{% block container %}
+    <div class="row">
+    <div class="col-sm-3 pull-left">
+
+    <form method='POST' action=''>{% csrf_token %}
+        <!--将crispy-forms应用到form中-->
+        <!--{{ form | crispy}} -->
+
+
+    <span style="display: inline-block;margin-top: 10px">方案名称:&nbsp;{{ form.fanan }}</span>
+     <span style="display: inline-block;margin-top: 10px">指令内容:&nbsp;{{ form.zhiling }}</span>
+     <span style="display: inline-block;margin-top: 10px">参数顺序:&nbsp;{{ form.params }}</span>
+     <span style="display: inline-block;margin-top: 10px">指令状态:&nbsp;{{ form.status }}</span>
+    <div style="margin-top: 10px">
+        <input style="width: 60px;
+font-size: 15px;
+   height: 30px;
+   color: #ffffff;
+   background-color: rgba(22, 155, 213, 1);
+   border: 1px solid #ccc;
+   border-radius: 4px;" class='btn btn-primary' type='submit' value='提交' />
+        <a href="javascript:;" onClick="javascript:history.back(-1);" style="text-decoration:none;color:black"><input style="width: 60px;
+font-size: 15px;
+   height: 30px;
+   color: #ffffff;
+   background-color: rgba(22, 155, 213, 1);
+   border: 1px solid #ccc;
+   border-radius: 4px;" class='btn btn-default' type='button' value='取消' /></a>
+    </div>
+    </form>
+    </div>
+    </div>
+
+{% endblock %}

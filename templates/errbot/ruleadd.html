@@ -1,0 +1,179 @@
+{% extends "common/index.html" %}
+
+{% block page_css %}{% endblock %}
+{% block page_title %}{% if alertdata %}{{ alertdata }}{% else %} {% endif %}{% endblock %}
+{% block container %}
+    <form class="form-horizontal" action="" method="post">{% csrf_token %}
+    <div class="form-group"><div ><label class="col-sm-1 control-label">规则名称</label>{% if rulesnames %}<input id="nameinput" style="width: 40%" type="text" class="form-control" name="name"  required="required" value={{ rulesnames }}>{% else %}<input id="nameinput" style="width: 50%" type="text" class="form-control" name="name"  required="required" value="新规则名">{% endif %}</div>
+    </div>
+    <div class="hr-line-dashed"></div>
+    <div class="form-group"><label class="col-sm-1 control-label">指令</label>
+    <div class="col-lg-4 col-sm-6">
+            <a id="commandadd" onclick="getTDtext()" href="{% url 'newcommand' 'ss' 'nn'%}" style="display: inline-block;width: 60px;display: inline-block;cursor:pointer;
+     font-size: 15px;
+    height: 30px;
+    color: #ffffff;
+    background-color: rgba(22, 155, 213, 1);
+    border: 1px solid #ccc;
+    border-radius: 4px;text-align: center;line-height:30px;text-decoration:none">新建</a>
+
+    </div>
+    </div>
+    <div class="hr-line-dashed"></div>
+    <div class="form-group"><label class="col-sm-1 control-label"  ></label>
+        <div class="text-right col-lg-11">
+            <table id="table_id" class="table table-striped table-bordered table-hover">
+                <thead>
+                <!--表格头部-->
+                <th style="text-align: center">序号</th>
+                <th style="text-align: center">指令</th>
+                <th style="text-align: center">状态</th>
+                <th style="text-align: center">操作</th>
+                </thead>
+               <!--表格内容-->
+                <tbody>
+                {% for item in commands %}
+                    <tr>
+                    <td style="text-align: center">{{ item.id }}</td>
+                    <td style="text-align: center">{{ item.zhiling }}</td>
+                    {% if item.status == '0' %}
+                    <td style="text-align: center">启用</td>
+                    {% else %}
+                    <td style="text-align: center">禁用</td>
+                    {% endif %}
+                    <td style="text-align: center">
+                        <!--页面扩展时的按钮布局-->
+                        <div class="hidden-sm hidden-xs action-buttons">
+                            <!--编辑信息按钮-->
+                            <a class="green" href="{% url 'modcomm' item.id  %}" title="编辑信息">
+                                <i class="icon-pencil ace-icon fa fa-pencil bigger-130"></i>
+{#                                        编辑#}
+                            </a>
+
+                             <a id="modal_button_{{ item.id }}" class="red" href="#modal_form"
+                                data-toggle="modal" rel="{% url 'delcomm' item.id %}" content="确认删除该条目么？"
+                                title="删除信息">
+                                 <i class="icon-trash ace-icon fa fa-trash-o bigger-130"></i>
+{#                                         删除#}
+                             </a>
+                        </div>
+                        <!--页面收缩时的按钮布局-->
+                        <div class="hidden-md hidden-lg">
+                            <div class="inline position-relative">
+                                <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown"
+                                        data-position="auto">
+                                    <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+
+                                </button>
+
+
+                                <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+
+                                    <li>
+                                        <a class="green" href="{% url 'modcomm' item.id  %}" title="编辑信息">
+                                        <i class="icon-pencil ace-icon fa fa-pencil bigger-130"></i>
+{#                                        编辑#}
+                                        </a>
+                                    </li>
+                                    <li>
+                                          <a id="modal_button_{{ item.id }}" class="red" href="#modal_form"
+                                                           data-toggle="modal" rel="{% url 'delcomm' item.id %}" content="确认删除该条目么？"
+                                                           title="删除信息">
+                                        <span class="red">
+                                           <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                            删除
+                                        </span>
+                                          </a>
+                                    </li>
+
+
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="hr-line-dashed"></div>
+    <div class="text-right">
+
+    <a href="javascript:;" onClick="javascript:history.back(-1);" style="display: inline-block;width: 60px;display: inline-block;cursor:pointer;
+     font-size: 15px;
+    height: 30px;
+    color: #ffffff;
+    background-color: rgba(22, 155, 213, 1);
+    border: 1px solid #ccc;
+    border-radius: 4px;text-align: center;line-height:30px;text-decoration:none">返回</a>
+&nbsp;&nbsp;
+    <button style="width: 60px;
+    font-size: 15px;
+       height: 30px;
+       color: #ffffff;
+       background-color: rgba(22, 155, 213, 1);
+       border: 1px solid #ccc;
+       border-radius: 4px;" type="submit" rel="{% url 'rulelist' table='rule' %}">确认</button>
+</div>
+<input id="morenrule" name="morenrule" value="" type="hidden"/>
+</form>
+
+<input id="fanganinput" value="" type="hidden"/>
+<input id="morenrule" value="" type="hidden"/>
+<script>
+    window.onload = function(){
+        var js1=document.getElementById('fanganinput');
+        js1.value='{{ fangan }}';
+    }
+</script>
+
+<script language="javascript">
+function getTDtext()
+{
+var inpvalue = document.getElementById("fanganinput");
+var namevalue = document.getElementById("nameinput").value;
+var js2=document.getElementById("morenrule");
+js2.value=namevalue;
+{#alert(js2.value);#}
+var url=document.getElementById("commandadd");
+var url1=url.toString();
+var url2=url1.replace(/ss/,inpvalue.value);
+url.href=url2.replace(/nn/,namevalue)
+    }
+</script>
+    {% include 'errbot/assModal.html' %}
+{% endblock %}
+
+{% block page_javascript %}
+    {% include 'errbot/assModal_js.html' %}
+    <!--datatable的专用js-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#table_id').DataTable({
+                //分页配置
+                "paging": false,
+                //搜索配置
+                "searching": false,
+                "bInfo": false,
+                //列配置
+                "columnDefs": [{
+                    //只有最后一行不需要排序
+                    "orderable": false, "targets": -1
+                }]
+            });
+        });
+    </script>
+
+{% endblock %}
+<script>
+     $(document).ready(function(){
+         var editor_two = CodeMirror.fromTextArea(document.getElementById("code2"), {
+             lineNumbers: true,
+             matchBrackets: true,
+             styleActiveLine: true
+         });
+    });
+</script>
+
+
